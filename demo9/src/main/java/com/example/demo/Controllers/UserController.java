@@ -61,7 +61,7 @@ public class UserController {
             return "adduser";
         }
         userService.saveUser(user);
-        return "redirect:/allusers";
+        return "redirect:/users/allusers";
     }
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable(value="id") Long id, Model model){
