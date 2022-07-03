@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ol>
+    <li th:each="users:${user}">
+        <ul>
+            <li><span  th:text="|Name: ${users.getName()}"/></li>
+
+            <li><span  th:text="|Surname: ${users.getSurname()}"/>
+        </li>
+
+
+</ol>
+
+</body>
+</html>
