@@ -66,9 +66,9 @@ public class UserController {
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable(value="id") Long id, Model model){
         userService.deleteUserById(id);
-        //logger.info("category deleted");
 
-        return "redirect:/allusers";
+
+        return "redirect:/users/allusers";
     }
 
 
