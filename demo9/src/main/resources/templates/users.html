@@ -5,13 +5,22 @@
     <title>Title</title>
 </head>
 <body>
+<h1>Users</h1>
+<tr th:if="${users.empty}">
+    <td colspan="2"> No Users </td>
+</tr>
 <ol>
-    <li th:each="users:${user}">
+    <li th:each="user:${users}">
         <ul>
-            <li><span  th:text="|Name: ${users.getName()}"/></li>
+            <li><span  th:text="|Name: ${user.name}"/>
+            </li>
 
-            <li><span  th:text="|Surname: ${users.getSurname()}"/>
+            <li><span  th:text="|Surname: ${user.surname}"/>
         </li>
+            <a th:href="@{/users/delete/{id}(id=${user.id})}">Delete item</a>
+            <a th:href="@{/users/edit/{id}(id=${user.id})}">Edit item</a>
+
+        </ul>
 
 
 </ol>

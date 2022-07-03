@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
@@ -20,14 +19,14 @@ public class UserController {
 
     @GetMapping("/allusers")
     public String index(Model model){
-        model.addAttribute("user", userService.getAllUsers());
+        model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
 
     @GetMapping("/new")
     public String newUser(Model model){
         User user = new User();
-        model.addAttribute("user", user);
+        model.addAttribute("users", user);
         model.addAttribute("method", "POST");
       //  logger.info("category added");
 
@@ -35,16 +34,43 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    public String saveCategory( @ModelAttribute("user") User user, BindingResult bindingResult, Model model){
+    public String saveCategory( @ModelAttribute("users") User user, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);
+            model.addAttribute("users", user);
             model.addAttribute("method", "POST");
 
             return "adduser";
         }
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/users/allusers";
     }
+    @GetMapping("/edit/{id}")
+    public String editUser(@PathVariable(value="id") Long id, Model model){
+
+        Optional<User> user = userService.getUserById(id);
+        model.addAttribute("users", user.get());
+        model.addAttribute("method", "PUT");
+        return "adduser";
+    }
+
+    @PutMapping("/edit/{id}")
+    public String updateUser( @ModelAttribute("category") User user, BindingResult bindingResult,Model model){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("users", user);
+            model.addAttribute("method", "PUT");
+            return "adduser";
+        }
+        userService.saveUser(user);
+        return "redirect:/allusers";
+    }
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable(value="id") Long id, Model model){
+        userService.deleteUserById(id);
+        //logger.info("category deleted");
+
+        return "redirect:/allusers";
+    }
+
 
 
 }
